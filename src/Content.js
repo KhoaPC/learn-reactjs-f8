@@ -12,6 +12,9 @@ import {memo} from 'react';
 Callback luôn được gọi sau khi component mounted
 Cleanup function luôn được gọi trước component unmounted
 Cleanup function luôn được gọi trước khi callback được gọi (trừ lần mounted)
+
+Memo: React sẽ ghi nhớ kết quả render và bỏ qua các quá trình render không cần thiết,
+nhằm tối ưu hóa việc hiệu năng của quá trình render
 */
 
 function ContentChange() {
@@ -149,7 +152,6 @@ function ContentGetImg() {
   );
 }
 
-
 const lessons = [
   {
     id: 1,
@@ -164,6 +166,8 @@ const lessons = [
     name: "Cách sử dụng useEffect?"
   }
 ];
+
+// Thời  gian thực demo
 function ContentX() {
   const [lessonId, setLessonId] = useState(1);
 
@@ -198,4 +202,5 @@ function ContentX() {
   );
 }
 
-export default  memo(ContentUseAPI);
+export default  memo(ContentX);
+// export default  ContentX;
