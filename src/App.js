@@ -1,302 +1,15 @@
-import { useState, useEffect, useRef, useMemo, useReducer } from "react";
-import Content from "./Content";
-import Button from "./module-style";
 import { Routes, Route } from "react-router-dom";
-import TodoApp from "./Todo";
-
-// UseState START
-function AppChange() {
-  // Khởi tạo state với giá trị là 1
-  const [counter, setCounter] = useState(1);
-
-  const handleIncrease = () => {
-    // Chỉ thực thi 1 lần
-    setCounter(counter + 1);
-    setCounter(counter + 1);
-
-    // Callback
-    // Thực thi cả hai '1 lần'
-    // setCounter(preCounter => preCounter + 5);
-    // setCounter(preCounter => preCounter + 5);
-  };
-
-  return (
-    <div className="App">
-      <h1>{counter}</h1>
-      <button onClick={handleIncrease}>Click</button>
-    </div>
-  );
-}
-
-// Random 1 thành phần trong mảng
-const listGifts = ["Keybord", "Mouse", "Screen", "Camera"];
-function AppRandom() {
-  //
-  const [gift, setGift] = useState();
-
-  const randomGift = () => {
-    const indexRandom = Math.floor(Math.random() * listGifts.length);
-
-    // Thay đổi giá trị của 'gift' = listGifts[index]
-    setGift(listGifts[indexRandom]);
-  };
-
-  return (
-    <div style={{ padding: 40 }}>
-      <h1>{gift || "Chưa có quà"}</h1>
-      <button onClick={randomGift}>Lấy quà</button>
-    </div>
-  );
-}
-
-// Two-way binding START
-function AppInput() {
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-
-  const handleSubmit = () => {
-    console.log({
-      name,
-      email,
-    });
-  };
-  return (
-    <div style={{ padding: 40 }}>
-      <input
-        placeholder="Name"
-        value={name}
-        onChange={(e) => setName(e.target.value)}
-      />
-      <input
-        placeholder="Email"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-      />
-      <button onClick={handleSubmit}>Hello</button>
-    </div>
-  );
-}
-
-const courses = [
-  {
-    id: 1,
-    name: "HTML, CSS",
-  },
-  {
-    id: 2,
-    name: "JavaScript",
-  },
-  {
-    id: 3,
-    name: "ReactJS",
-  },
-];
-function AppRadio() {
-  const [checked, setChecked] = useState();
-
-  const handleSubmit = () => {
-    console.log({ id: checked });
-  };
-
-  return (
-    <div className="App" style={{ padding: 32 }}>
-      {courses.map((course) => (
-        <div key={course.id}>
-          <input
-            type="radio"
-            checked={course.id === checked}
-            onChange={() => setChecked(course.id)}
-          />
-          {course.name}
-        </div>
-      ))}
-      <button onClick={handleSubmit}>Submit</button>
-    </div>
-  );
-}
-// Two-way binding END
-
-function AppTodo1() {
-  const [note, setJob] = useState("");
-  const [listNote, setJobs] = useState([]);
-
-  const handleSubmit = () => {
-    // Thêm note vào list
-    setJobs((prev) => {
-      const newJobs = [...prev, note];
-
-      return newJobs;
-    });
-    // Value input = ''
-    setJob("");
-  };
-
-  function handleDelete(index) {
-    const newJobs = listNote.filter((value, i) => i !== index);
-    // Set list note
-    setJobs(newJobs);
-  }
-
-  return (
-    <div className="App" style={{ padding: 30 }}>
-      <input value={note} onChange={(e) => setJob(e.target.value)} />
-      <button onClick={handleSubmit}>Add</button>
-      <ul>
-        {listNote.map((job, index) => (
-          <li key={index}>
-            {job}
-            <button onClick={() => handleDelete(index)}>X</button>
-          </li>
-        ))}
-      </ul>
-    </div>
-  );
-}
-// UseState END
-
-// UseEffect START
-function AppDisplay() {
-  const [show, setShow] = useState(false);
-
-  return (
-    <div className="App" style={{ padding: 32 }}>
-      <button onClick={() => setShow(!show)}>Toggle</button>
-      {show && <Content />}
-    </div>
-  );
-}
-// --> Content.js
-// UseEffect END
-
-// UseRef START
-// Luôn return về obj có giá trị là current
-function AppRef() {
-  const [count, setCount] = useState(60);
-
-  // Lưu lại giá trị của setInterval để khi re-render giá trị không thay đổi
-  const timerId = useRef();
-
-  const handleStart = () => {
-    timerId.current = setInterval(() => {
-      // Callback bên trong setCount để lưu lại giá trị của count
-      setCount((prevState) => prevState - 1);
-      console.log(timerId);
-    }, 1000);
-  };
-
-  const handleStop = () => {
-    clearInterval(timerId.current);
-  };
-
-  return (
-    <div className="App">
-      <h1>{count}</h1>
-      <button onClick={handleStart}>Start</button>
-      <button onClick={handleStop}>Stop</button>
-    </div>
-  );
-}
-// UseRef END
-
-// useMemo START
-function AppCount() {
-  const [name, setName] = useState("");
-  const [price, setPrice] = useState("");
-
-  const [products, setProducts] = useState([]);
-  const handleSubmit = () => {
-    setProducts([
-      ...products,
-      {
-        name,
-        price: +price,
-      },
-    ]);
-    setName("");
-    setPrice("");
-  };
-
-  // useMemo: Ghi nhớ kết quả của hàm
-  // Khi nào dependencies thay đổi thì nó sẽ gọi
-  const total = useMemo(() => {
-    const result = products.reduce((prev, product) => {
-      return prev + product.price;
-    }, 0);
-    return result;
-  }, [products]);
-
-  return (
-    <div className="App">
-      <input
-        value={name}
-        placeholder="enter name"
-        onChange={(e) => setName(e.target.value)}
-      />
-      <input
-        value={price}
-        placeholder="enter price"
-        onChange={(e) => setPrice(e.target.value)}
-      />
-      <button onClick={handleSubmit}>Add</button>
-
-      <ul>
-        Total:{total}
-        {products.map((product, index) => (
-          <li key={index}>
-            {product.name} - {product.price}
-          </li>
-        ))}
-      </ul>
-    </div>
-  );
-}
-// useMemo END
-
-function AppStyle() {
-  return (
-    <div>
-      <Button active></Button>
-      <Button></Button>
-      <Button disable></Button>
-      <Button active></Button>
-    </div>
-  );
-}
-
-// UseReducer START
-const initState = 0;
-// Action
-const UP_ACTION = "UP";
-const DOWN_ACTION = "DOWN";
-// Reducer
-const reducer = (state, action) => {
-  console.log("run");
-
-  switch (action) {
-    case UP_ACTION:
-      return state + 1;
-    case DOWN_ACTION:
-      return state - 1;
-    default:
-      throw new Error("Invalid action");
-  }
-};
-// dispatch
-function AppRedure() {
-  const [count, dispatch] = useReducer(reducer, initState);
-  return (
-    <div className="App">
-      <h1>{count}</h1>
-      <button onClick={() => dispatch(DOWN_ACTION)}>Down</button>
-      <button onClick={() => dispatch(UP_ACTION)}>Up</button>
-    </div>
-  );
-}
-
-function AppTodo() {
-  return <TodoApp />;
-}
-// UseReducer END
+import AppChange from "./components/AppChange";
+import AppRandom from "./components/AppRandom";
+import AppInput from "./components/AppInput";
+import AppRadio from "./components/AppRadio";
+import AppTodo1 from "./components/AppTodo1";
+import AppDisplay from "./components/AppDisplay";
+import AppRef from "./components/AppRef";
+import AppCount from "./components/AppCount";
+import AppStyle from "./components/AppStyle";
+import AppRedure from "./components/AppRedure";
+import AppTodo from "./components/AppTodo";
 
 // Router
 function App() {
@@ -333,6 +46,9 @@ function App() {
         <li>
           <a href="/challenge-9">challenge-9</a>
         </li>
+        <li>
+          <a href="/challenge-10">challenge-10</a>
+        </li>
       </ul>
 
       <Routes>
@@ -346,6 +62,7 @@ function App() {
         <Route path="/challenge-7" element={<AppCount />}></Route>
         <Route path="/challenge-8" element={<AppRedure />}></Route>
         <Route path="/challenge-9" element={<AppTodo />}></Route>
+        <Route path="/challenge-10" element={<AppStyle />}></Route>
       </Routes>
     </div>
   );
