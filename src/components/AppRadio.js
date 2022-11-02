@@ -1,6 +1,7 @@
 import { useState } from "react";
 
-export default function AppRadio() {
+export default function AppRadio({title}) {
+  document.title = title;
   const courses = [
     {
       id: 1,
@@ -21,6 +22,12 @@ export default function AppRadio() {
     console.log({ id: checked });
   };
 
+  let disable = true;
+
+  const handleDisable = () => {
+    disable = false;
+  };
+
   return (
     <div className="App" style={{ padding: 32 }}>
       {courses.map((course) => (
@@ -28,12 +35,17 @@ export default function AppRadio() {
           <input
             type="radio"
             checked={course.id === checked}
-            onChange={() => setChecked(course.id)}
+            onChange={() => {
+              setChecked(handleDisable());
+              setChecked(course.id);
+            }}
           />
           {course.name}
         </div>
       ))}
-      <button onClick={handleSubmit}>Submit</button>
+      <button disabled={checked ? false : true} onClick={handleSubmit}>
+        Submit
+      </button>
     </div>
   );
 }

@@ -1,7 +1,7 @@
 import { useReducer } from "react";
 
-export default function AppRedure() {
-  // // UseReducer START
+export default function AppRedure({title}) {
+  document.title = title;
   const initState = 0;
   // Action
   const UP_ACTION = "UP";

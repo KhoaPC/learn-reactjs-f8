@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+
 
 export default function AppChange() {
   // Khởi tạo state với giá trị là 1

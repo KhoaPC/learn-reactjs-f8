@@ -1,8 +1,10 @@
 import { useState } from "react";
 
-export default function AppInput() {
+export default function AppInput({ title = "React Examples" }) {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
+
+  document.title = title;
 
   const handleSubmit = () => {
     console.log({

@@ -1,9 +1,9 @@
 import { useState, useMemo } from "react";
 
-export default function AppCount() {
+export default function AppCount({title}) {
   const [name, setName] = useState("");
   const [price, setPrice] = useState("");
-
+  document.title = title
   const [products, setProducts] = useState([]);
   const handleSubmit = () => {
     setProducts([

@@ -1,10 +1,10 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
-export default function AppRandom() {
+export default function AppRandom({title}) {
   const listGifts = ["Keybord", "Mouse", "Screen", "Camera"];
-
   const [gift, setGift] = useState();
 
+  document.title = title
   const randomGift = () => {
     const indexRandom = Math.floor(Math.random() * listGifts.length);
 
