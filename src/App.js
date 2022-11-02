@@ -9,6 +9,7 @@ import AppCount from "./components/AppCount";
 import AppStyle from "./components/AppStyle";
 import AppRedure from "./components/AppRedure";
 import AppTodo from "./components/AppTodo";
+import TodoAppWithUseState from "./components/AppTodoWithUseState";
 
 import ContentCountdown from "./components/ContentCountdown";
 import ContentUseAPI from "./components/ContentUseAPI";
@@ -65,6 +66,9 @@ function App() {
         <li>
           <a href="/challenge-12">challenge-12</a>
         </li>
+        <li>
+          <a href="/challenge-13">challenge-13</a>
+        </li>
       </ul>
 
       <Routes>
@@ -81,6 +85,7 @@ function App() {
         <Route path="/challenge-10" element={<ContentGetImg title="Challenge #10: ContentGetImg"/>}></Route>
         <Route path="/challenge-11" element={<ContentUseAPI title="Challenge #11: ContentUseAPI"/>}></Route>
         <Route path="/challenge-12" element={<ContentRealTime title="Challenge #12: ContentRealTime"/>}></Route>
+        <Route path="/challenge-13" element={<TodoAppWithUseState title="Challenge #13: TodoAppWithUseState"/>}></Route>
       </Routes>
     </div>
   );
